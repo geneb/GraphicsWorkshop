@@ -1,0 +1,14 @@
+'********** GWFont.GW - Sets up the arrays neccessary for GW Vector Fonts
+
+'Copyright (c) 1990 Brian Giedt
+'Copyright (c) 1990 Crescent Software
+
+IF MaxGWFonts% = 0 THEN MaxGWFonts% = 1
+GPDat%(81) = MaxGWFonts%
+IF EuroGWFonts% THEN
+  REDIM SHARED OutLineFont$(223, MaxGWFonts% - 1), FontSize%(223, MaxGWFonts% - 1), OutlineHeight%(MaxGWFonts% - 1)
+ELSE
+  REDIM SHARED OutLineFont$(95, MaxGWFonts% - 1), FontSize%(95, MaxGWFonts% - 1), OutlineHeight%(MaxGWFonts% - 1)
+END IF
+
+

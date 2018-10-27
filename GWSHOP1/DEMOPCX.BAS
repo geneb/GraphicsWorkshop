@@ -1,0 +1,33 @@
+'*** DEMOPCX.BAS - Demo of .PCX display, positioning, and saving small regions
+
+DEFINT A-Z
+
+'$INCLUDE: 'GWDECL'
+
+
+'$INCLUDE: 'GetVideo'
+GPDat%(31) = 5
+
+SetVideo
+
+CALL DisplayPCXFile2("FONTS1", 0, 0, 0)
+LOCATE 1, 17: PRINT "FIRST LOAD THREE COPIES OF BEETHOVEN ON SCREEN"
+
+CALL DisplayPCXFile2("BEETHOVN", 0, 16, 7)
+CALL DisplayPCXFile2("BEETHOVN", 0, 110, 26)
+CALL DisplayPCXFile2("BEETHOVN", 0, 65, 47)
+
+LOCATE 1, 17: PRINT "   NOW SAVE THE CENTER REGION OF THE SCREEN   "
+
+CALL SavePCXRegionVE("ABC.PCX", 129, 77, 538, 311)
+
+LOCATE 1, 18: PRINT "AND RE-DISPLAY IT.  EACH SAVE WAS OFFSET BY 1"
+
+CALL DisplayPCXFile2("ABC.PCX", 0, 77, 17)
+
+FOR T = 1 TO 25
+  CALL SavePCXRegionVE("ABC.PCX", 129, 77, 538, 311)
+  CALL DisplayPCXFile2("ABC.PCX", 0, 77, 17)
+NEXT
+
+

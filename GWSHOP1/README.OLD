@@ -1,0 +1,345 @@
+  THIS README FILE IS FOR ONLY USERS WITH THE OLDER, SPIRAL BOUND MANUALS.
+
+This file reflects changes since the printing of the older, spiral bound user
+manuals.  These changes are already implemented in the newer manual that uses
+a three ring binder.  If you have the older manual you should also consult
+the main README file for additional new features.
+
+        ============================================================
+
+                 CHANGES TO THE GRAPHICS WORKSHOP MANUALS
+                 ========================================
+
+*  An additional parameter has been added to the BASIC routine DrawCursor,
+   which draws a graphics cursor to the screen.  This parameter is a timing
+   value which allows the routine to know when to blink the cursor.  The new
+   call syntax is shown below:
+
+     CALL DrawCursor(CursorX%, CursorY%, CursorWidth%, CursorHeight%, _
+          CursorIsOn%, CursorTiming%)
+
+   CursorTiming% hold the time (in 1/18ths of a second) between blinking the
+   cursor on and blinking the cursor off.  Note that a value of 9 would
+   produce a complete cycle once every second.
+
+
+*  The example for QBinaryLoad% in the manual has two errors.  First, the
+   REDIM statement should have a value of 1 as the second dimension.  Second,
+   the call to QBinaryLoad% requires that the keyword SEG appears before the
+   name of the array.  The below example is a complete code fragment you can
+   use as an example:
+
+     DEFINT A-Z
+     '$INCLUDE: 'GWDECL.BAS'
+
+     SCREEN 9
+     Filename$ = "SALES1.PCX"
+     Size& = GWFileSize&(Filename$)
+     REDIM Array%(Size& \ 4 + 1, 1)
+     Success = QBinaryLoad%(Filename$, SEG Array%(0, 0))
+     IF Success THEN
+        ArraySeg% = VARSEG(Array%(0, 0))
+        CALL PCXArrayVE(ArraySeg%, 0)
+     ELSE
+        PRINT "Error loading file"
+     END IF
+
+
+*  The example for the FadeEGA routine in the manual has a mistake.  The line
+   which contains the call to the FadeEGA routine should read
+
+     CALL FadeEGA (1, 1, T)
+
+
+
+           Additions and Changes to the Graphics Workshop Programs
+           =======================================================
+
+*  Two routines have been added to Graphics Workshop, LineBVE and LineBFVE,
+   which emulate the Box and Box Fill abilities of BASIC's LINE statement.
+   These accept the same parameters as the original LineVE routine, and also
+   have all of its XOR, AND, and OR logical operator abilities.  LineBVE will
+   draw a box from (x1, y1) to (x2, y2), and LineBFVE will draw a box from
+   (x1, y1) to (x2, y2) filling it with the same color specified.  The source
+   code for these two routines has been added to the LINEVE.ASM file.  The
+   syntax is as follows:
+
+       CALL LineBVE(BYVAL X1%, BYVAL Y1%, BYVAL X2%, BYVAL Y2%, BYVAL Colr%)
+   or
+       CALL LineBFVE(BYVAL X1%, BYVAL Y1%, BYVAL X2%, BYVAL Y2%, BYVAL Colr%)
+
+   As an example, to create a green box from (0, 0) through (639, 479) you
+   would call LineBVE with the following parameters:
+
+       CALL LineBVE(0, 0, 639, 479, 2)
+
+   To create a filled box with the same dimensions use:
+
+       CALL LineBFVE(0, 0, 639, 479, 2)
+
+*  Two additional routines have been added to save graphics images to .PCX
+   files.  These routines, SavePCXC and SavePCXH save CGA and Hercules images
+   respectively.  The CGA version automatically determines if the screen is
+   in the 2-color or 4-color mode.  The syntax is as follows:
+
+       CALL SavePCXC(Filename$)
+   or
+       CALL SavePCXH(Filename$)
+
+
+*  All of the .PCX file save routines can be used as a function.  SavePCXE,
+   SavePCXC, and SavePCXH will return a -1 if an error occurred while saving
+   the file.  They will return a zero if the save was successful.  The file
+   GWDECL.BAS has commented-out DECLARE statements which could be activated
+   to use these routines as functions.
+
+*  A Windows(tm)-like pull down menu system has been added.  The PullDnMSG
+   routine is contained in the file PULLDNMS.BAS.  A demo program,
+   DEMOPLMS.BAS has been added to demonstrate how to call the routine.  Each
+   of the menu items has a hotkey assigned to it.  The hotkey is then
+   underlined by the PullDnMSG routine when shown on screen.  The position of
+   the hotkey is stored in the high byte of the Stat%() array.  If the 2nd
+   letter is to be the hot letter, then you would store the value 1 * 256 in
+   its respective Stat%() element.  Note that you store a value one less than
+   the letter's position.  The syntax for the PullDnMSG routine is:
+
+      CALL PullDnMSG(Menu$(), Stat%(), Menu%, Choice%, Ky$, Action%)
+
+   If the value of Ky$ = CHR$(13) then look to the Menu% and Choice% variables
+   to find out what selection the user has made.  There are two routines which
+   work with the PullDnMSG routine to provide a complete user interface.  The
+   BarPrintMSG routine allows you to place the menu bar onscreen before the
+   user has even entered the menu system.  The MenuKeyMSG routine interprets
+   the user's keystrokes and filters out Alt-key combinations which can be
+   used to start the menu system.  The MenuKeyMSG routine otherwise returns
+   the keystroke that was pressed so that your program can interpret it.  The
+   MenuKeyMSG routine should replace the main INKEY$ statement in your program
+   that is waiting for the users input.  The program example DEMOPLMS.BAS
+   shows a complete menuing setup.
+
+*  The routine Fade2EGA has been added.  This routine functions like FadeEGA,
+   but it only requires 5 iterations to complete its process, and has smaller
+   grid sections.  This routine will provide faster processing, and will
+   require less of the screen to be transformed since the grid regions are
+   smaller.  The GridX% value may range from from 1 to 16, and the GridY%
+   value from 1 to 44.  The syntax for the Fade2EGA routine is:
+
+      CALL Fade2EGA(GridX%, GridY%, GridNumber%)
+
+*  A change has been in the Graphics Workshop Vector font file format.  This
+   change allows the vector fonts to be loaded much faster and occupies less
+   space on disk.
+
+*  The GraphPak and Graphics Workshop Vector fonts have been modified to allow
+   for the creation of characters in the extended character set.  In character
+   mode applications, the most useful portion of the extended character set
+   seems to be the line drawing characters.  In graphics mode, we have a
+   better method of drawing lines: the LineVE routine.  So, in graphics mode,
+   the most useful portion of the extended character set is its foreign
+   characters.  This change is reflected in two font files and a demo program.
+   The font files EURO.GFN and EURO.QFN work with the GraphPak and Graphics
+   Workshop font systems respectively, and are demonstrated by the
+   DEMOEURO.BAS example program.  To enable the European fonts (which requires
+   enlarging the font arrays enough to contain the extended character set),
+   set the variables EuroGPFonts% and EuroGWFonts% to -1 at the locations
+   shown below in the standard code:
+
+      DEFINT A-Z
+      '$INCLUDE: 'GWDECL.BAS'
+      '$INCLUDE: 'GETVIDEO.BAS'
+
+      EuroGPFonts% = -1  'Set this before reaching the GPFont.GW include file
+      '$INCLUDE: 'GPFonts.GW'
+      SetGPFont 1
+      LoadFont "EURO"
+
+      EuroGWFonts% = -1  'Set this before reaching the GWFont.GW include file
+      '$INCLUDE: 'GWFonts.GW'
+      SetGWFont 1
+      LoadOutlineFont "EURO"
+
+*  A complete demo, GWDEMO.BAS, has been added.  This file contains the source
+   for the Graphics Workshop demo disk.  It also includes an example of
+   "mousable" three-dimensional buttons, and introduces some different fade
+   types.  Benchmarks are also shown comparing the speed improvements over
+   BASIC's equivalent routines.
+
+*  An element has been added to the GPDat%() array.  The 86th element is a
+   True/False value (0 or -1) which tells the OutlineText routine whether or
+   not to fill in the outlined text.  A value of 0 means to color it in.  Any
+   other value will cause the OutlineText routine to "Draw an Outline Only".
+   Examples of this element can be found in the GWDEMO.BAS example program.
+
+*  Two routines ShadeV and ShadeH have been added to Graphics Workshop.  They
+   function like the ShadeVertical and ShadeHorizontal routines covered in the
+   manual.  However, these routines use the mixed coordinate system to make
+   them faster.  The syntax for the ShadeV and ShadeH routines is below:
+
+      CALL ShadeV (Col1%, Line1%, Cols%, Lines%, NumColors%, StepChoice%, _
+        Colors%())
+
+   and
+
+      CALL ShadeH (Col1%, Line1%, Cols%, Lines%, NumColors%, StepChoice%, _
+        Colors%())
+
+   An example of calling these routines is contained in the example program
+   DEMOSHAD.BAS.
+
+*  The routine ClearVE has been added to Graphics Workshop.  The routine
+   ClearVE will reset the EGA and VGA registers to a known state.  Some of
+   the earlier Graphics Workshop routines did not completely reset the video
+   registers.  All Graphics Workshop routines now properly reset the video
+   registers.  The format for the ClearVE routine is shown below:
+
+      CALL ClearVE
+
+*  The routines LineToVE, LineToStepVE, and LineStepVE have been added.  This
+   lets you immitate BASIC's -(x, y) capability.  The routine LineToVE draws
+   a line from the last coordinate drawn to (LineVE, LineToVE, LineToStepVE,
+   LineStepVE, CircleVE, or DrawPointVE) to the coordinate passed to the
+   routine.  Each of the routines mentioned before remembers the coordinate
+   that it draws to so that LineToVE, LineToStepVE, and LineStepVE can use
+   this coordinate to resume drawing at that point.  The syntax for the
+   LineToVE routine is:
+
+      CALL LineToVE (BYVAL X%, BYVAL Y%, BYVAL Colr%)
+
+   The following example shows LineToVE drawing from coordinate 100,100 to
+   coordinate 224,118.
+
+      CALL DrawPointVE (100, 100, 0)   'Set the last coordinate to 100, 100
+      CALL LineToVE (224, 118, 15)     'Draw the line
+
+   The routine LineToStepVE draws a line from the last coordinate drawn to,
+   to the coordinate a specified distance away from that coordinate.  The
+   Step values can be negative or positive.  The format for the LineToStepVE
+   routine is:
+
+      CALL LineToStepVE (BYVAL StepX%, BYVAL StepY%, BYVAL Colr%)
+
+   The following example shows LineToStepVE drawing from coordinate 100,100
+   to coordinate 224,118.
+
+      CALL DrawPointVE (100, 100, 0)   'Set the last coordinate to 100, 100
+      CALL LineToStepVE (124, 18, 15)  'Draw the line
+
+   The routine LineStepVE draws a line from a specified distance from the
+   last coordinate drawn to, to a specified distance from the same point.
+   The Step values can be negative or positive.  The syntax for LineStepVE
+   is as follows:
+   
+      CALL LineStepVE (BYVAL StepX1%, BYVAL StepY1%, BYVAL StepX2%, _
+        BYVAL StepY2%, BYVAL Colr%)
+
+   The following example shows LineToStepVE drawing from coordinate 100,100
+   to coordinate 224,118.
+
+      CALL DrawPointVE (50, 50, 0)        'Set the last coordinate to 100, 100
+      CALL LineStepVE (50,50,174,68,15)   'Draw the line
+
+*  The functions GetLastXCoord% and GetLastYCoord% have been added.  These
+   routines get the last coordinate position set by one of the drawing
+   primitives.  The format for GetLastXCoord% and GetLastYCoord% is:
+
+      X% = GetLastXCoord%
+      Y% = GetLastYCoord%
+
+   The following example draws a red pixel at the last coordinate drawn to:
+
+      CALL DrawPointVE% (GetLastXCoord%, GetLastYCoord%, 4)
+
+*  The routine SetLastCoord has been added to set the last coordinate drawn
+   to without physically drawing anything to the screen.  The format for the
+   SetLastCoord routine is:
+
+      CALL SetLastCoord (BYVAL X%, BYVAL Y%)
+
+*  The routines SlideLeft, SlideRight, SlideUp, SlideDown, and SplitHorizontal
+   have all been converted to assembly and are contained in GW.LIB and GW.QLB.
+   The routines' functionality has not changed from that shown in the manual
+   in Chapter 4.
+
+*  The routine ClsVE has been added.  This routine lets you clear the screen
+   in each of the EGA and VGA modes.  The format of the ClsVE routines is:
+
+      CALL ClsVE
+
+*  The routine ClearScreenArray has been added.  This routine clears the
+   ScreenArray which is maintained by the GPrint???? routines.  Characters
+   in this array can be looked at using the GetCharacter% function.  The
+   format of this routine is shown below:
+
+      CALL ClearScreenArray
+
+*  The GetCharacter% function gets the character value at a specified
+   location.  The character values are maintained by the GPrint???? routines.
+   The format for the GetCharacter% function is shown below:
+
+      Letter% = GetCharacter% (BYVAL X%, BYVAL Y%)
+
+*  The routines SetSourcePage and SetDestPage have been added.  They perform
+   collectively the same function as the SetGWPages routine.  These two
+   routines allow you set one of the pages without setting or resetting the
+   other page value at the same time.  The syntax for these routines is:
+
+      CALL SetSourcePage (BYVAL SourcePage%)
+      CALL SetDestPage (BYVAL DestPage%)
+
+*  The GMove4VE routine has been added.  The GMove4VE routine functions like
+   the GMove2VE routine in that it is used to save and restore images.  The
+   GMove4VE routine uses conventional memory for storing the image data.  The
+   memory location must be declared prior to saving the image into the array.
+   To calculate the amount of memory required use the following formula:
+
+      MemoryNeeded% = ColumnsUsed% * LinesUsed% * 4 + 4
+
+   Once the amount of memory required has been calculated, you will dimension
+   an integer array with half of the elements contained in MemoryNeeded%.  If
+   the value in MemoryNeeded% is greater than 65536, then you must run QB.EXE
+   or QBX.EXE with the /Ah parameter, and compile your programs with this
+   parameter as well.  In addition, you will need to make a two-dimensional
+   array.  To make an array covering 128K of memory, dimension it thus:
+
+      REDIM Array%(32767,1)
+
+   The format for the GMove4VE routine is:
+
+      CALL GMove4VE(BYVAL Col1%, BYVAL Line1%, BYVAL Cols%, BYVAL Lines%, _
+        BYVAL ArraySegment%, BYVAL Direction%)
+
+   Like the GMove2VE routine, when the Direction% is 0, the image will be
+   saved to the array, and when it is non-zero, the image will be moved from
+   the array to the screen.
+
+   A side-effect of the functioning of this routine is that images saved with
+   the GMove4VE routine can be placed anywhere on the screen using the BASIC
+   PUT statement.  However, images captured with the BASIC GET statement
+   cannot be displayed with the GMove4VE routine.
+
+*  Two Lotus-style Menu systems have been added.  The two menu systems are
+   contained in the routines LtsMenuG and Lts2MenuG.  A choice can be made
+   either by using the arrowkeys and pressing Enter, or by pressing a key that
+   corresponds to the first letter of a choice.  The format for calling the
+   two routines is shown below:
+
+      CALL LtsMenuG (Item$(), Choice%)
+
+   and
+
+      CALL Lts2MenuG (Item$(), Prompt$(), Choice%)
+
+   The Item$() is a conventional string array containing a list of menu items.
+   The Prompt$() is a conventional string array holding the text that
+   describes each choice.
+
+   The two routines are shown in context in the DEMOLTS.BAS example program.
+
+*  The routine GetScreenMode has been added.  The routine GetScreenMode is
+   used by ClsVE to get the current BIOS video mode.  It is needed when a
+   screen mode is not set using one of the Graphics Workshop Screen??
+   statements.  The GetScreenMode routine is a function and returns the
+   video mode in the AX registers as do all assembler functions.  To use the
+   GetScreenMode% function from within BASIC, the syntax is:
+
+     BIOSMode% = GetScreenMode%

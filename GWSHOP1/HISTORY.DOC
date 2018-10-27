@@ -1,0 +1,450 @@
+      This file lists all fixes and additions to the Graphics Workshop.
+           Please also see the README file for additional details
+    =====================================================================
+
+LINEBVE.ASM and LINEBFVE.ASM    11-30-90
+New routines to draw boxes and filled boxes.
+
+GWDECL.BAS                      11-30-90
+Added LineBVE and LineBVFE.
+
+Modified the following routines to use the LineBVE and LineBFVE routines,
+instead of using BASIC's equivalents:
+
+BUTTON.BAS          DEMOBNCH.BAS        DEMOBOX.BAS         DEMOBYTE.BAS
+DEMOCIRC.BAS        DEMOCURS.BAS        DEMODIGI.BAS        DEMOEDIT.BAS
+DEMOFADE.BAS        DEMOFX.BAS          DEMOGW.BAS          DEMOINTR.BAS
+DEMOMENU.BAS        DEMOMOUS.BAS        DEMOMOVE.BAS        DEMOPAL.BAS
+DEMOPULL.BAS        DEMOSCRL.BAS        DEMOSCRN.BAS        DEMOSHAD.BAS
+DEMOVERT.BAS        DIGITIZE.BAS        DRAWTEXT.BAS        FILLPOLY.BAS
+INTER1.BAS          OUTLTEXT.BAS        PULLDOWN.BAS        QSEGUE.BAS
+SEGUE2.BAS          SEGUE3.BAS          SEGUE4.BAS          SEGUE5.BAS
+SEGUE6.BAS          SEGUE7.BAS          XORBOX.BAS          ZOOM.BAS
+
+QSEGUE.BAS                      11-30-90
+Fixed a bug that called QBinaryLoad% incorrectly, and returned an error in
+loading the file even though the file was loaded correctly.
+
+SAVEPCXC.ASM and SAVEPCXH.ASM   11-30-90
+New routines to save .PCX images from a CGA and Hercules respectively.
+
+^-------------------------------- Version 1.01 ------------------------------^
+
+SAVEPCXE.ASM, SAVEPCXC.ASM, SAVEPCXH.ASM     12-05-90
+Modified routines to correctly use BASIC 7's far strings.
+
+^-------------------------------- Version 1.02 ------------------------------^
+
+FADEEGA.ASM                                  12-05-90
+Moved the data contained in FADEDATA.GW so that it is contained in the Code
+Segment and not the data segment.  This freed up 10K of string space which
+was found to be neccessary on some machines when running programs like the
+QSEGUE.BAS demo.
+
+DIGITIZE.BAS                                 12-06-90
+Modified routine to use SetGWPages to change the active page, rather than
+using the BASIC screen statement.
+
+MOUSECNT.BAS                                 12-06-90
+Modified the routine GetCountLocation% and GetMouseCount% to use the routines
+MBuffSize% and MGetState which performed the same functions as the Mouse
+routine used earlier.  Also the Mouse routine is not capable of accepting Far
+strings from BASIC 7.
+
+SCRNDMP2.ASM                                 12-06-90
+Fixed the routine to provide BC7 compatibility for far strings.
+
+GPRINT1E.ASM                                 12-06-90
+Modified the Row positioning to follow the actual number of bytes in the
+height of individual characters.  The routine GPrint0VE already used the
+proper value.
+
+GWDECL.BAS                                   12-09-90
+Added a DECLARE statement for the already existing PaintBits routine to the
+declare file to make using the PaintBits routine simpler.
+
+FILLPOLY.BAS                                 12-12-90
+In some cases, the FillPoly routine ended prematuraly, leaving a pixel hole
+in the surrounding outline.
+
+FONT64.BAS                                   12-13-90
+This example program has received message boxes to tell users when they have
+attempted to perform a function when it was not the proper time to do so.  The
+messages will help reduce users questions by providing them with an
+explanation of what they have done.  Also the menus can be activated with
+Alt-MenuKey key combinations, and the Help function now has a listing of the
+available quick keys that can be used in the program.
+
+^-------------------------------- Version 1.03 ------------------------------^
+
+PULLDNMS.BAS                                 12-15-90
+Added a PullDnMSG routine to simulate a Microsoft Windows Pull Down menu
+system using HotKeys and running in graphics mode.  The DEMOPLMS.BAS demo has
+been added as well.
+
+PULLDOWN.BAS and VERTMENU.BAS                12-15-90
+Added a work-around to fix a bug in the Logitech mouse driver that required
+you to jiggle the mouse before it would work.
+
+PULLDOWN.BAS                                 12-15-90
+Changed the PullMenKey routine name to PullMenKeyG to avoid a conflict with
+QuickPak Professional.
+
+GETVIDEO.BAS                                 12-15-90
+Added an initialization for element 86 of the GPDat%() array.  The 86th
+element is a True/False variable which tells the OutlineText routine whether
+or not to fill in the outlined text.  A value of 0 means to color it in.  Any
+other value will cause the OutlineText routine to draw an outline only.
+
+OUTLTEXT.BAS                                 12-15-90
+Modified the OutlineText routine to utilize the 86th element of the GPDat%()
+array to determine if it should draw the outline only, and not fill in the
+individual letters.  (See above)
+
+SHADEH.BAS and SHADEV.BAS                    12-15-90
+Added ShadeH and ShadeV routines to SHADEH.BAS and SHADEV.BAS respectively.
+These routines differ from the ShadeHorizontal and ShadeVertical routines only
+in the use of the mixed coordinate system which makes them faster.
+
+MSGBOX.BAS, PULLDOWN.BAS, VERTMENU.BAS, PULLDNMS.BAS  12-15-90
+All of the shadows in each of these routines have been shortened.  This will
+allow the routines to seem faster.
+
+FONTS.BAS                                    12-17-90
+The source for the GraphPak font editor has been added.  It has been modified
+to handle the extended character set.  An associated EuroGPFonts% flag has
+been added to the Graphics Workshop routines to handle this change.
+
+EURO.GPK, EURO.GFN                           12-17-90
+This font file contains all of the characters in the extended character set
+as well as all normal characters.
+
+FONT64.BAS                                   12-17-90
+The Graphics Workshop Vector font editor has been modified to use the extended
+character set, and the vector file format has been reduced in size.  A feature
+has also been added to the Edit menu to duplicate an existing character into
+the definition for the character currently being edited.
+
+EURO.QFN                                     12-17-90
+This font file contains the standard helvetica vector font and some of the
+European characters.  It demonstrates the ability for the extended characters
+to be defined in vector fonts.
+
+DEMOEURO.BAS                                 12-18-90
+This example program has been added to demonstrate the ability of the font
+systems to use the extended character set.  (See above)
+
+SAVEPCXE.ASM                                 12-18-90
+A bug was fixed in this routine which did not set the proper image size of the
+image being saved.
+
+GW.LIB, GW7.LIB                              12-18-90
+The routine InStat% covered in the manual was added to these libraries, and to
+the respective .QLB quick libraries.
+
+FADEEGA.ASM                                  12-18-90
+A bug was fixed in this routine.  The Grid locations now follow the manual's
+description.
+
+FADE2EGA.ASM                                 12-18-90
+The routine Fade2EGA was added to Graphics Workshop.  It uses a smaller grid
+region and hence works faster than the FadeEGA routine.
+
+SETVIDEO.BAS                                 12-20-90
+A call to InitMouse was added from within the SetVideo routine to change the
+settings in the mouse driver to coincide with the currently set video mode.
+
+VIEWPCX.BAS                                  12-20-90
+This example program has been modified for easier use within the QuickBASIC
+environment.  It no longer uses the Graphics Workshop Screen setting routines
+like "CALL Screen12".  It instead uses BASIC's SCREEN statements.
+
+DISPPCXE.ASM, DISPPCXH.ASM, DISPPCXV.ASM, DISPPCXC.ASM, PCXARAYE.ASM,
+PCXARAYH.ASM, PCXARAYV.ASM, PCXARAYC.ASM    12-20-90 A bug was fixed in these
+routines.  The parameter for the VideoPage% has been changed to be an
+absolute video page, and is no longer affected by the Destination page value
+set by the SetGWPages routine.
+
+GMOVE2VE.ASM                                 12-20-90
+A bug in this was changed.  The Col% parameter now goes follows the mixed
+coordinate system as covered in the manual.
+
+DEMOMOUS.BAS                                 12-20-90
+An example of using the GraphCursor routine to redefine the shape of the mouse
+cursor has been added to this demonstration program.
+
+^-------------------------------- Version 1.04 ------------------------------^
+
+GETCHAR.ASM                                  1-06-91
+The routine GetCharacter has been added to obtain the character value of a
+specified cursor location.  GetCharacter requires that one of the GPrint???
+routines place the character on screen.
+
+LTSMENU.BAS, LST2MENU.BAS, DEMOLTS.BAS       1-10-91
+The routines LtsMenuG and Lts2MenuG have been added to provide Lotus-style
+menus that work in graphics mode.
+
+GMOVE4VE.ASM                                 1-14-91
+The routine GMove4VE has been added to save and restore images to and from
+arrays in conventional memory.
+
+LINETOVE.ASM                                 1-21-91
+The routine LineToVE has been added to draw a line from the last cursor
+location to the new location specified.  LineToVE calls on LineVE for the
+actual drawing of the line.
+
+LINETSVE.ASM                                 1-21-91
+The routine LineToStepVE has been added to draw a line from the last cursor
+location to the location a specified distance away.  LineToStepVE calls on
+LineVE for the actual drawing of the line.
+
+LINSTPVE.ASM                                 1-21-91
+The routine LineStepVE has been added to draw a line from a specified distance
+away from the last drawing location, to another specified distance away from
+the same reference point.
+
+SLIDRGHT.ASM, SLIDLEFT.ASM, SLIDDOWN.ASM, and SLIDUP.ASM    1-21-91 These
+routines have been converted to assembly langaueg and placed in GW.LIB.  The
+original BASIC source has been added to EXAMPLE.DOC.
+
+CIRCLEVE.ASM                                 1-22-91
+CircleVE has been speeded up substantially and it is now faster than BASIC's
+CIRCLE statement.
+
+SPLITHOR.ASM                                 1-24-91
+The routine SplitHorizontal has been converted to an assembly routine
+contained in GW.LIB.  The original BASIC source for this routine has been
+added to EXAMPLE.DOC.
+
+CLRCHAR.ASM                                  1-25-91
+Added the routine ClearScreenArray to clear the ScreenArray which is
+maintained by the GPrint???? routines and can be read using the GetCharacter
+routine.
+
+EGASTUFF.ASM                                 1-25-91
+Added the routine ClsVE to clear the screen in the VGA and EGA screen modes.
+ClsVE calls the routine ClearScreenArray.
+
+PCXHEADR.BAS                                 1-26-91
+Modified the header interpretation routines to handle Microsoft's new version
+of the Paintbrush program that is shipped with their mouse.  Yet another
+interpretation of the .PCX format.
+
+GPRINT0H.ASM                                 1-27-91
+Fixed a bug in this routine that did not allow printing extended characters.
+
+GETSMODE.ASM                                 1-28-91
+Added a routine GetScreenMode which is used by ClsVE to determine the current
+BIOS video mode.
+
+^-------------------------------- Version 1.05 ------------------------------^
+
+GWDECL.BAS                                   3-10-91
+The GMove4VE routine was added to this file which contains DECLARE statements
+for all of the Graphics Workshop routines.
+
+SLIDRGHT.ASM, SLIDLEFT.ASM, SLIDDOWN.ASM, and SLIDUP.ASM    3-21-91 The
+parameters for this routine were changed so that they would be passed by
+value to increase the speed of these routines.
+
+LINEVE.ASM                                   4-11-91
+The Horizontal and Vertical line drawings have been speed up.
+
+LINBFVE.ASM                                  4-11-91
+The LineBFVE routine has been speed up to be faster than BASIC's version.
+
+SCRNDMP2.ASM                                 4-11-91
+An option has been added to the ScrnDump2 routine that will invert the color
+of the picture from black to white on the printer.
+
+GPRINT06.ASM, GPRINT36.ASM                   4-12-91
+The routines GPrint0V256 and GPrint3V256 have been added to Graphics Workshop.
+
+SAVEPCX6.ASM                                 4-19-91
+The routine SavePCXV256 has been added to save VGA 256 color images.
+
+SAVEPCXE.ASM                                 4-19-91
+The routine SavePCXVE now saves the palette for images created on VGA systems.
+
+PALSAVE.BAS                                  4-19-91
+New demo shows how to save palette information.
+
+PCXCAP.BAS and .EXE                          4-19-91
+New TSR utility program.
+
+^-------------------------------- Version 1.06 ------------------------------^
+
+LINBF2VE.ASM                                 4-24-91
+The routine LineBF2VE has been added.  It is faster than BASIC's LINE
+statement by 40%.
+
+LINEBFVE.ASM                                 4-30-91
+A bug which did not allow use of the XOR operator has been fixed.
+
+LINEVE.ASM                                   4-30-91
+A bug which did not allow use of the XOR operator has been fixed.
+
+DEMOMOUS.BAS                                 4-30-91
+A timing delay problem has been fixed.
+
+DEMOFX.BAS, DEMOGW.BAS                       4-30-91
+Incorrect DECLARE statements have been removed.
+
+^-------------------------------- Version 1.07 ------------------------------^
+
+DISPPCXC.ASM                                 6-13-91
+Modified routine to properly handle CGA images smaller than full screen.
+
+GPRINT0E.ASM, GPRINT1E.ASM, GPRINT0H.ASM     6-12-91
+Modified routines to not store characters into the character array if the row
+is greater than 30 (VGA).
+
+CIRCLEVE.ASM, CLRCHAR.ASM, GETCHAR.ASM, GPRINT0E.ASM, GPRINT0H.ASM,
+GPRINT1E.ASM, GPRINT2E.ASM, GPRINT2H.ASM, GWVARS.ASM, LINEVE.ASM    6-12-91
+All above modified in how external data was stored and accessed.
+
+^-------------------------------- Version 1.08 ------------------------------^
+
+VIEWPCX.EXE                                  8-29-91
+Fixed the executible file to properly display images.
+
+PCXCAP.BAS, PCXCAP.EXE                       8-29-91
+Added support for saving VGA 256 color images.
+
+DEMOGQED.BAS, GQEDITS.BAS                    9-04-91
+Added QEditS, a multi-line editor for graphics mode.
+
+DISPPCX2.BAS                                 9-04-91
+Added a complete routine to display .PCX images at a specified position on
+the screen.
+
+DISPPCXE.ASM                                 9-04-91
+Added the routine PositionPCXVE to Graphics Workshop.
+
+SVPCXRGE.ASM                                 9-11-91
+Added the routine SavePCXRegion to save partial screen graphics images.
+
+EGASTUFF.ASM,VGASTUFF.ASM,CGASTUFF.ASM       9-11-91
+Improved the Graphics Workshop routines for setting screen modes.
+
+^-------------------------------- Version 1.09 ------------------------------^
+
+DISPPCXE.ASM                                 9-24-91
+Fixed support for partial screen images.
+
+GPRINT06.ASM, GPRINT36.ASM                   9-24-91
+Fixed display of text when using these routines.
+
+^-------------------------------- Version 1.10 ------------------------------^
+
+SVPCXRGE.ASM                                 10-07-91
+Fixed Partial File Save so that it will work with PC PaintBrush.  End result
+is that Windows Paintbrush will now not load these partial screen images.
+Comments in the source show you what you can change if you want to create
+files readable only by Windows Paintbrush.
+
+DISPPCXE.ASM                                 10-07-91
+Fixed support for newer partially saved images.
+
+SCRLPCXE.ASM                                 10-07-91
+New .PCX display routine DispScrollPCXVE, works like DispPCXVE, except it
+allows only a partial region from within the .PCX file to be displayed.
+
+VIEWPCX.BAS                                  10-07-91
+Example program has been modified to show larger than screen images by using
+the DispScrollPCXVE routine.
+
+LINETSVE.ASM, LINETOVE.ASM                   10-10-91
+Fixed the routines LineToStepVE and LineToVE to start at the proper locations.
+
+SCRNDMP2.ASM                                 10-11-91
+Fixed output of Epson Portrait mode EGA screens.
+
+GQEDITS.BAS                                  10-15-91
+Added LastTime as a SHARED variable to maintain the correct cursor status
+when calling QEdits more than one time in polled mode.
+
+^-------------------------------- Version 1.11 ------------------------------^
+
+ARAYPCXE.ASM                                 10-27-91
+Fixed display of PCX images that used the PCXArrayVE routine.
+
+GWDECL.BAS                                   10-27-91
+Updated the DECLARE file.
+
+^-------------------------------- Version 1.12 ------------------------------^
+
+PULLDNMSG.BAS               12/4/91
+Modified code to let the pull-down menu be located at any row and column.
+Modified the Crescent Logo to eliminate white outlines.
+
+GQEDITS.BAS and DEMOGQED.BAS    12/4/91
+Fixed a bug that could leave garbage on the screen when scrolling up.  Added
+Action values of -2 and -1 to allow the underlying screen to be saved before
+displaying QEdit (see README).  Modified DEMOGQED.BAS to call QEdit with
+Action set to -2.
+
+GETVIDEO.BAS                12/4/91
+Changed the value in GPDat%(72) from &HA900 to &HAA00.  GPDat%(72) contains
+the segment that can be used for saving graphic screens to video memory with
+the GMove2VE subroutine.
+
+SETVIDEO.BAS                12/4/91
+Added assignments for GPDat%(72) (the starting address for the second video
+page) for EGA/VGA SCREEN 9 and VGA SCREEN 12.
+
+^-------------------------------- Version 1.13 ------------------------------^
+
+PULLDNMS.BAS and PULLDOWN.BAS   1-2-92
+Further modified to correctly use the BarLine (and BarLCol in PULLDNMS)
+constant to let the menu be displayed at any row and column.  Also modified
+DEMOPLMS.BAS to use GPrint0VE instead of BASIC print statements.
+
+^-------------------------------- Version 1.14 ------------------------------^
+FONT64.BAS                   5/01/92 The Font64.BAS vector font editor has
+been enhanced in several ways. The most important enhancement is the addition
+of full mouse support. In addition, three new menu options have been added:
+
+
+1. Pick ASCII        This option lets you select a character without diplaying
+                     a "Graphpak" reference character.
+
+2. Delete Paint      Lets you delete a pre-defined paint point. Place the
+                     cursor over the point to be removed and press Enter.
+
+3. Clear Character   Clears the current character's font definition from
+                     memory and lets you define a new character from scratch
+
+
+Adding mouse support required that the procedure for moving lines be slightly
+modified. When using a mouse, you can click on the point to be moved and drag
+it with the mouse to its new position. Pressing Enter will set the new
+location. When using the keyboard, you must first locate the cursor at an
+intersection and then press Enter. The point can then be moved by using the
+standard cursor keys or the mouse. You can continue to move lines or cancel
+the procedure by clicking the right mouse button or by pressing Escape.
+
+The pull-down menu can be accessed at any time by clicking the right mouse
+button or by clicking on the menu bar with the left mouse button.
+
+ANIMATE.BAS                 5/01/92
+Written by tech support specialist Carl Franklin, this demo shows how simple
+animation can be achieved using partial .PCX files and the Graphic WorkShop's
+GMove2VE routine.
+
+GPRINT0C.ASM                 5/01/92
+Modified to print text correctly on old CGA monitors. The earlier version only
+worked correctly on the current generation of CGA monitors.
+
+^-------------------------------- Version 1.15 ------------------------------^
+
+9/9/94 Some of the ASM source code supplied was not as current as the routines
+contained in the library. This has been corrected.  
+
+Modified assembly code to handle data spanning segment boundries.
+
+^------------------------------ 1.17---------------------------------------^
+
+1/23/97 Added a non-proportional font display subroutine in DRWTXTNP.BAS.
+
+^------------------------------ 1.18---------------------------------------^

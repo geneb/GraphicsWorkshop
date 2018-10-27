@@ -1,0 +1,199 @@
+           Additions and Changes to the Graphics Workshop Manual
+           =====================================================
+
+*  An option has been added to the ScrnDump2 routine which allows you to
+   completely invert the output generated on the paper.  The parameters for
+   ScrnDump2 have not changed.  To invert the color shown on the printer
+   simply add 256 to the value passed showing the LPTNo%.
+
+     LPTNo% = 1 + 256     'Assigns LPT1 and inverts black to white
+     CALL ScrnDump2(DPI$, LPTNo%, Translate%, XMult%, YMult%, Landscape%)
+
+
+
+
+          Additions and Changes to the Graphics Workshop Programs
+          =======================================================
+
+*  An option has been added to the ScrnDump2 routine which allows you to
+   completely invert the output generated on the paper.  The parameters for
+   ScrnDump2 have not changed.  To invert the color shown on the printer
+   simply add 256 to the value passed showing the LPTNo%.
+
+     LPTNo% = 1 + 256     'Assigns LPT1 and inverts black to white
+     CALL ScrnDump2(DPI$, LPTNo%, Translate%, XMult%, YMult%, Landscape%)
+
+
+*  The GPrint0V256 and GPrint3V256 routines have been added to graphics
+   workshop to print text in SCREEN 13.  The GPrint0V256 routine uses the
+   40 x 25 character positioning which mimics the LOCATE statement in
+   SCREEN 13.  The GPrint3V256 routine uses the 40 character column
+   positioning, like the previous routine, but allows the Y position to be
+   any value from 0 to 199 for screen mode 13.
+
+     CALL GPrint0V256 (Row%, Col%, Text$, Colr%)
+
+     CALL GPrint3V256 (Line%, Col%, Text$, Colr%)
+
+
+*  SavePCXV256 is a new routine that saves VGA SCREEN 13 images in the .PCX
+   format.  Unlike the other .PCX saving routines in Graphics Workshop, this
+   one also saves the VGA palette information at the end of the file.  The
+   calling syntax for SavePCXV256 is shown below:
+
+     CALL SavePCXV256(FileName$)
+
+
+*  PCXCAP is a TSR utility program that lets you save graphics images from
+   other applications.  PCXCAP was written using our P.D.Q. product, along
+   with the various SavePCX routines that come with the Graphics Workshop.
+   Simply run PCXCAP.EXE from the DOS command line, and when you want to
+   capture a screen press Alt-S.  We have also provided the BASIC source code
+   for your amusement; however, you will also need P.D.Q. if you want to
+   recompile it.
+
+
+*  PALSAVE.BAS is an example program that demonstrates saving palette
+   information to a .PCX file.  Note that the SavePCXVE routine saves palette
+   information only when the screen is a VGA screen mode.  EGA hardware does
+   not allow the user to query for the palette information.  The PALSAVE.BAS
+   demo can show you how to save palette information to a .PCX file after
+   it has been saved.  For that matter you could use a similar technique to
+   change the palette information of an existing .PCX file.
+
+
+*  The LineBF2VE routine has been added.  This routine functions the same as
+   the LineBFVE routine except this routine is 40% faster than BASIC's
+   equivalent and it does not allow you to use the logical operators like
+   the other Graphics Workshop routines.  Since the LineBF2VE routine is
+   about 40% faster than the BASIC equivalent, you must weigh your needs of
+   speed over ability.  The calling syntax for the LineBF2VE routine is shown
+   below:
+
+      CALL LineBF2VE (BYVAL X1%, BYVAL Y1%, BYVAL X2%, BYVAL Y2%, BYVAL Colr%)
+
+
+*  The routine QEdit is a complete multiline text editor for graphics mode
+   that may be called as a a "pop-up" from within a BASIC program.  The
+   format for calling the routine is below:
+
+     CALL QEdit(Array$(), Ky$, Action%, Ed)
+
+   Array$() is a conventional string array that holds the text to be
+   edited.  The dimension of the array determines the maximum number of
+   lines.  Ky$ returns the last key pressed by the user.  Action%
+   indicates how QEdit is being invoked.  If Action% is set to 0, then
+   QEdit will allow editing until the Escape key is pressed.  Ed is a
+   special TYPE variable that controls a number of QEdit's parameters.
+   A complete demonstration is also provided in the DEMOGQED.BAS example
+   program.
+
+
+*  The routine PositionPCXVE is used to locate a .PCX image which is loaded
+   with the DispPCXVE routine.  By calling this routine imediately prior
+   to the DispPCXVE routine, a PCX image can be located at any column and
+   line combination as defined by the Mixed coordinate system.  The format
+   for calling the routine is shown below:
+
+     CALL PositionPCXVE (BYVAL LineStart%, BYVAL ColStart%)
+
+   This routine is used by the routine DisplayPCXFile2 to allow EGA and VGA
+   .PCX images to be located at line and column positions.
+
+
+*  The routine SavePCXRegionVE has been added to Graphics Workshop.  This
+   routine is used to save any region of a screen to a .PCX file.  Any region
+   on the screen can be specified.  The format for calling the routine is
+   shown below:
+
+     CALL SavePCXRegionVE (Filename$, BYVAL x1%, BYVAL y1%, BYVAL x2%,
+          BYVAL y2%)
+
+   The coordinates are in the normal graphics coordinate system.  Images
+   which are saved with this routine can be loaded using Graphics Workshop
+   routines and into most applications.  However, be aware that the .PCX
+   format is not standardized in partial screen images.  For instance, files
+   created by this routine can be loaded into PC PaintBrush, Deluxe Paint,
+   and packages like Ventura Publisher, but Windows PaintBrush will
+   improperly load the image, giving the image the appearances of ghosts.
+
+
+*  The routine DisplayPCXFile2 has been added to facilitate the entire
+   process of displaying a .PCX file.  The routine DisplayPCXFile2 is similar
+   to the routine DisplayPCXFile with the addition of two parameters.  These
+   parameters allow positioning of EGA and VGA .PCX files at any line and
+   column position.  The format for calling the routine is:
+
+     CALL DisplayPCXFile2(Filename$, VideoPage%, LineStart%, ColStart%)
+
+   LineStart% and ColStart% are in the Mixed coordinate system.  If you
+   specify 0 and 0 for the line and column number, no positioning of .PCX
+   files will take place.
+
+
+*  The routine DispScrollPCXVE has been added to Graphics Workshop.  This
+   routine allows a region from within the .PCX file to be displayed.  The
+   .PCX file can be positioned on the screen using the PositionPCXVE routine
+   prior to calling this routine.  The format for calling the routine is:
+
+     CALL DispScrollVE(BYVAL VideoPage%, BYVAL ColStart%, BYVAL LineStart%,
+       BYVAL ColEnd%, BYVAL LineEnd%)
+
+   ColStart%, LineStart%, ColEnd%, and LineEnd% are all values in the Mixed
+   coordinate system.  ColStart% and ColEnd% can be values between 1 and the
+   number of bytes per line in the .PCX file.  As shown in the example
+   program VIEWPCX.BAS, CVI(MID$(Array$, 67, 2)) can be used on the Array$
+   returned from OpenPCXFile to determine the number of bytes per line.
+   LineStart% and LineEnd% can be values between 0 and the Maximum Y
+   coordinate in the PCX file.  The Maximum Y coordinate can be found with
+   CVI(MID$(Array$, 11, 2)).  For example, if you want a region displayed on
+   the screen that is 40 columns wide and 100 lines high, then ColEnd%
+   should be 39 greater than ColStart% and LineEnd% should be 99 greater
+   than LineStart%.  Setting ColStart% and LineStart% to values within their
+   range you can view any portion of the .PCX image.  An example of using
+   this routine to pan around a .PCX image is shown in the demo program
+   VIEWPCX.BAS.
+
+*  GPRINT0C.ASM was has been modified to properly display text on old CGA
+   monitors.
+
+*  ANIMATE.BAS was added to demostrate simple animation techniques using
+   Graphic's Workshop.
+
+*  FONT64.BAS was updated to have complete mouse support. Bugs that would
+   occasionally cause the program to crash when loading a font file have been
+   fixed.
+
+
+
+Recreating the assembly language source code
+============================================
+
+It is very unlikely that you will need to reassemble the source code for the
+assembly language subroutines.  But if you do want to make changes the source
+is provided for your convenience.
+
+Most of the Graphics Workshop assembly routines work correctly with both
+QuickBASIC 4.x and BASIC PDS.  To assemble those files that accept or return
+a string for use with BASIC PDS, you must use the /D option when assembling.
+These routines use a technique called "conditional assembly", whereby
+different portions of the code are assembled, depending on which version of
+BASIC they are to be used with.  The MASM /D switch lets you "define" a
+condition, which is then tested within the routine.  To reassemble those
+routines, run MASM as follows.
+
+  MASM GPRINT0E.ASM /DBC7
+
+This conditional compilation specifies assembly for use with BASIC PDS.
+There are some routines which do not use conditional compilation for use with
+BASIC PDS.  These assembly routines have two copies: one which is for QB4.x
+and is contained in SOURCE.EXE and one which is for BASIC PDS and is contained
+in SOURCE7.EXE.
+
+
+
+New Non-Proportional Font Display
+=================================
+
+The new subroutine contained in DRWTXTNP.BAS is called the same way as the
+original DrawText routine, but it displays the text with a fixed spacing.

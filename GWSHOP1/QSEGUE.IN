@@ -1,0 +1,31 @@
+LOAD FONTS1.PCX 1
+LOAD FONTS2.PCX 2
+Interlude 1 "QUICKSEGUE_TAKE 4"
+Send 1
+Segue 5 2 3 50
+Send 2
+Segue 2 4 7 50
+LOAD FONTS3.PCX 1
+Send 1
+Segue 5 6 1 50
+LOAD XORBOX.PCX 2
+Send 2
+Segue 3 4 3 50
+CLEAR 1
+CLEAR 2
+DO 1
+LOAD ZOOMED.PCX 1
+LOAD DEMOSHAD.PCX 2
+Send 1
+Segue 2 2 2 50
+Send 2
+Segue 6 10 2 50
+LOCATE Middle, Bottom
+PRINT "Press Any Key To Continue"
+LOAD FONTEDIT.PCX 1
+PAUSE
+Send 1
+Segue 4 1 4 50
+Segue 4 2 4 50
+PAUSE
+

@@ -1,0 +1,8 @@
+DEFINT A-Z
+
+'$INCLUDE: 'GWDECL'
+
+SCREEN 2
+CALL GPRINT0C2(1, 26, "This is CGA Mode", 1)
+WHILE INKEY$ = "": WEND
+

@@ -1,0 +1,42 @@
+;*** EXTERNAL.GW - Graphics Workshop Externals
+
+;Copyright 1990, Brian C. Giedt
+
+SizeOfScrnArray EQU 30*80
+
+  EXTRN EGABaseVideoSeg : Word
+  EXTRN EGAVideoSeg : Word
+  EXTRN EGAVideoSeg2 : Word
+  EXTRN EGABytesPerLine : Word
+  EXTRN FirstEGAOffset : Word
+  EXTRN V256BytesPerLine : Word
+
+  EXTRN CGABaseVideoSeg : Word
+  EXTRN CGAVideoSeg : Word
+  EXTRN CGAVideoSeg2 : Word
+  EXTRN CGABytesPerLine : Word
+  EXTRN FirstCGAOffset : Word
+
+  EXTRN HERCBaseVideoSeg : Word
+  EXTRN HERCVideoSeg : Word
+  EXTRN HERCVideoSeg2 : Word
+  EXTRN HERCBytesPerLine : Word
+  EXTRN FirstHERCOffset : Word
+
+  EXTRN ScreenOffset : Word
+  EXTRN ScreenArrayEnd : Word
+  EXTRN ScrnBytesPerLine : Word
+
+  EXTRN StringOffset : Word
+  EXTRN StringSegment : Word
+  EXTRN VideoSeg : Word
+  EXTRN VideoOffset : Word
+  EXTRN YSave : Word
+  EXTRN StringOffset : Word
+  EXTRN MoreString : Word
+  EXTRN LastWasGet : Byte
+
+  EXTRN GWScrnMode : Byte
+
+  EXTRN LastLineX : Word
+  EXTRN LastLineY : Word

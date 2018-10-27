@@ -1,0 +1,10 @@
+;BC7Start.GW - Code to allow compatibility with BC 7.0
+
+;BC 7.0 requires that all assembly routines save DS, ES, DI, and SI.
+
+ifdef bc7
+    Push DS    ;Save the registers
+    Push ES
+    Push DI
+    Push SI
+endif

@@ -1,0 +1,29 @@
+;PCXEXTRN.GW - Externals for the PCX routines
+
+EXTRN PCX_BitsPerPixel:Byte
+EXTRN PCX_XMin:Word
+EXTRN PCX_YMin:Word
+EXTRN PCX_XMax:Word
+EXTRN PCX_YMax:Word
+EXTRN PCX_XSize:Word
+EXTRN PCX_YSize:Word
+EXTRN PCX_NumPlanes:Byte
+EXTRN PCX_BytesPerLine:Word
+
+EXTRN PCX_HighPlane:Byte
+EXTRN PCX_Plane:Byte
+EXTRN PCX_Y:Word
+EXTRN PCX_ArraySeg:Word
+EXTRN PCX_DataSeg:Word
+EXTRN PCX_CountBits:Word
+EXTRN PCX_CountBitsSave:Word
+EXTRN PCX_StartAddress:Word
+EXTRN PCX_LocalFilename:Byte
+EXTRN PCX_FileHandle:Word
+EXTRN PCX_TheBuffer:Byte
+EXTRN PCX_CountDown:Word
+
+EXTRN PaletteVE:Byte
+EXTRN PCX_AllDone:Byte
+EXTRN PCX_ByteAtOnLine:Word
+EXTRN PCX_BeginBuff:Word

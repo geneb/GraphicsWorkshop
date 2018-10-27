@@ -1,0 +1,10 @@
+9/16/92
+
+Graphics WorkShop now supports Visual Basic for DOS. When running
+Graphics WorkShop under VBDos, use the GWVBD.QLB quick library.  If you
+compile and link your programs from the command line, you must link with
+the GW7.LIB library.  If you prefer to compile and link from the VBDOS
+environment, you will need to rename GW7.LIB to GWVBD.LIB.  This is
+easily done with the DOS RENAME command:
+
+REN GW7.LIB GWVBD.LIB
